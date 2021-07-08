@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+</head>
+
+<body >
+
+	<div th:fragment="header">
+		<table>
+			<tr>
+				<td><a th:href="@{/home}">Home</a></td>
+				<td th:if="${loggeduser} == null"><a th:href="@{/login}">Login</a></td>
+				<td th:if="${loggeduser} != null"><a
+					th:if="${loggeduser.role}=='Administrator'" th:href="@{/companies}">Companies</a></td>
+				<td th:if="${loggeduser} != null"><a th:href="@{/contacts}">Contacts</a></td>
+				<td th:if="${loggeduser} != null"><a
+					th:if="${loggeduser.role}=='Administrator'"
+					th:href="@{/users/users}">Users</a></td>
+					<td th:if="${loggeduser} != null"><a
+					th:if="${loggeduser.role}=='Administrator'"
+					th:href="@{/admin/tasks}">Tasks</a></td>
+					<td th:if="${loggeduser} != null"><a
+					th:if="${loggeduser.role}=='Administrator'"
+					th:href="@{/admin/export}">Export</a></td>
+				<td th:if="${loggeduser} != null"><p
+						th:text="'Welcome: ' + ${loggeduser.fullname}" /></td>
+				<td th:if="${loggeduser} != null"><a href="#"
+					th:href="@{/logout}">Logout</a></td>
+
+			</tr>
+		</table>
+
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>

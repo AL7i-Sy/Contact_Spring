@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div>
+
+
+		<table>
+			<tr>
+				<td>ID</td>
+				<td><p th:text="${contact.id}"></p></td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td><p th:text="${contact.firstname+' '+contact.lastname}"></p></td>
+			</tr>
+			<tr>
+				<td>Phone</td>
+				<td><p th:text="${contact.phone}"></p></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><p th:text="${contact.email}"></p></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td><p th:text="${contact.address}"></p></td>
+			</tr>
+			<tr>
+				<td>Entery By</td>
+				<td><p th:if="${contact.user}!=null"
+						th:text="${contact.user.fullname}"></p>
+					<p th:if="${contact.user}==null" th:text="${contact.source}"></p></td>
+
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>

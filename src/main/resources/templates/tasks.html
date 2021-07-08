@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div>
+
+		<style>
+td {
+	border: 1px solid black;
+}
+</style>
+
+		
+		<table th:if="${not #lists.isEmpty(tasks)}">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>Name</td>
+					<td>Process ID</td>
+					<td>#</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="t : ${tasks}">
+					<td th:text="${t.id}">ID</td>
+					<td th:text="${t.name}">Full Name</td>
+					<td th:text="${t.processInstanceId}">Entered By</td>
+					
+					<td><a th:href="${'/admin/tasks/complete/' +t.id}">Complete</a></td>
+					<!-- <td><a th:href="${'/admin/tasks/disapprove/' + t.processInstanceId+'/'+t.id}">DisApprove</a></td> -->
+					
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>

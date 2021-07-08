@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+
+
+	<div>
+
+
+
+
+		<table>
+			<tr>
+				<td>ID</td>
+				<td><p th:text="${user.id}"></p></td>
+			</tr><tr>
+				<td>Username</td>
+				<td>			<p th:text="${user.username}"></p>
+				</td>
+			</tr><tr>
+				<td>Email</td>
+				<td><p th:text="${user.email}"></p></td>
+			</tr><tr>
+				<td>Name</td>
+				<td><p th:text="${user.fullname}"></p></td>
+			</tr><tr>
+				<td>Company</td>
+				<td><p th:text="${user.company.name}"></p></td>
+			</tr><tr>
+				<td>Role</td>
+				<td><p th:text="${user.role}"></p></td>
+			</tr>
+		</table>
+		
+	</div>
+
+</body>
+</html>

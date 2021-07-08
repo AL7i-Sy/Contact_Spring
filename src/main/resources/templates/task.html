@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div>
+
+
+		<table>
+			<tr>
+				<td colspan="2"><p th:text="${message}"></p></td>
+			</tr>
+			<tr>
+				<td><a th:href="${'/admin/tasks/complete/'+tid+'/1'}">Agree</a></td>
+				<td><a th:href="${'/admin/tasks/complete/'+tid+'/0'}">Not Agree</a></td>
+				
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>

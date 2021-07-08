@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+	<div>
+
+
+		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+		<form action="/users/newuser" th:object="${tempuser}" method="post">
+
+
+			<div th:each="e : ${#fields.detailedErrors()}">
+				<span th:text="${e.global}? '*' : ${e.fieldName}">The field
+					name</span> | <span th:text="${e.message}">The error message</span>
+			</div>
+
+			<table>
+				<tr>
+					<td>ID</td>
+					<td><input type="text" th:field="*{id}" readonly="readonly" /></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="email" th:field="*{email}" /></td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td><input type="text" th:field="*{fullname}" /></td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td><input type="text" th:field="*{username}" /></td>
+				</tr>
+				<tr>
+					<td>Company</td>
+					<td><select th:field="*{company.id}">
+							<option th:each="c : ${companies}" th:value="${c.id}"
+								th:text="${c.name}"></option>
+
+					</select></td>
+				</tr>
+				<tr th:if="${tempuser.id} == 0">
+					<td>Password</td>
+					<td><input type="password" th:field="*{password}" /></td>
+				</tr>
+				<tr th:if="${tempuser.id} == 0">
+					<td>Repeat Password</td>
+					<td><input type="password" th:field="*{password2}" /></td>
+				</tr>
+				<tr>
+					<td>Role</td>
+					<td><select th:field="*{role}">
+							<option value="User">User</option>
+							<option value="Administrator">Administrator</option>
+
+					</select></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Save" /></td>
+				</tr>
+			</table>
+
+
+		</form>
+
+	</div>
+
+</body>
+</html>

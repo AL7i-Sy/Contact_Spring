@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+
+
+	<div >
+
+<a href="/users/newuser">New User</a>
+
+			
+				<table th:if="${not #lists.isEmpty(users)}">
+					<thead >
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Username</th>
+							<th>Company</th>
+							<th>Email</th>
+							<th>Role</th>
+							<th>View</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.fullname}"></td>
+							<td th:text="${user.username}"></td>
+							<td th:text="${user.company.name}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.role}"></td>
+							<td><a th:href="'/users/view/' + ${user.id}">View</a></td>
+							<td><a th:href="'/users/edit/' + ${user.id}">Edit</a></td>
+							<td><a th:href="'/users/delete/' + ${user.id}">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+			
+	</div>
+
+</body>
+</html>

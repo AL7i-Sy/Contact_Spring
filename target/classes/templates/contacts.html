@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+
+<body>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div>
+
+		<style>
+td {
+	border: 1px solid black;
+}
+</style>
+		<a href="/contact">New Contact</a> 
+		<table th:if="${not #lists.isEmpty(contacts)}">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Full Name</th>
+					<th>Entered BY</th>
+					<th>Phone</th>
+					<th>Email</th>
+					<th>Address</th>
+
+					<th>View</th>
+					<th>Edit</th>
+					<th>Delete</th>
+					<th th:if="${loggeduser.role}=='Administrator'">Approved</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="c : ${contacts}">
+					<td th:text="${c.id}">ID</td>
+					<td th:text="${c.firstname +' '+c.lastname}">Full Name</td>
+					<td th:if="${c.user}!=null" th:text="${c.user.fullname}">Entered By</td>
+					<td th:if="${c.user}==null" th:text="${c.source}">Entered By</td>
+					<td th:text="${c.phone}">Phone</td>
+					<td th:text="${c.email}">Email</td>
+					<td th:text="${c.address}">Address</td>
+
+					<td><a th:href="${'/contact/view/' + c.id}">View</a></td>
+					<td><a th:href="${'/contact/edit/' + c.id}">Edit</a></td>
+					<td><a th:href="${'/contact/delete/' + c.id}">Delete</a></td>
+					<td th:if="${loggeduser.role}=='Administrator'">
+						<p th:if="${!c.isapproved}">Not Approve</p>
+						   
+						<p th:if="${c.isapproved}">Approved</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+</body>
+</html>

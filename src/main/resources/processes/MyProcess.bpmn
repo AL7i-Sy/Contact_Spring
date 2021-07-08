@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="myProcess" name="My process" isExecutable="true">
+    <startEvent id="start_contact" name="Start"></startEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <userTask id="task_approve_contact" name="Approve Contact"></userTask>
+    <sequenceFlow id="flow7" name="User Role" sourceRef="exclusivegateway1" targetRef="mailtask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${role == 'User'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="start_contact" targetRef="exclusivegateway1"></sequenceFlow>
+    <serviceTask id="task_update_contact" name="Update Database" activiti:expression="${contactService.approveContact(contact.id)}"></serviceTask>
+    <endEvent id="end_contact" name="End"></endEvent>
+    <sequenceFlow id="flow11" sourceRef="task_update_contact" targetRef="end_contact"></sequenceFlow>
+    <sequenceFlow id="flow12" name="Admin Role" sourceRef="exclusivegateway1" targetRef="task_update_contact">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${role == 'Administrator'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow14" name="Contact Approved" sourceRef="exclusivegateway2" targetRef="task_update_contact">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow15" name="Contact Disapproved" sourceRef="exclusivegateway2" targetRef="servicetask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${agree==0}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="mailtask1" name="Send Email" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${adminEmails}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[ali.saeed.spring@gmail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[New Contact]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:string><![CDATA[Dear Administrator
+New Contact needs your Approvement.]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow16" sourceRef="mailtask1" targetRef="task_approve_contact"></sequenceFlow>
+    <sequenceFlow id="flow17" sourceRef="task_approve_contact" targetRef="exclusivegateway2"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Delete Contact" activiti:expression="${contactService.deleteContact(contact.id)}"></serviceTask>
+    <sequenceFlow id="flow18" sourceRef="servicetask1" targetRef="end_contact"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
+    <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+      <bpmndi:BPMNShape bpmnElement="start_contact" id="BPMNShape_start_contact">
+        <omgdc:Bounds height="35.0" width="35.0" x="30.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="129.0" y="237.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="task_approve_contact" id="BPMNShape_task_approve_contact">
+        <omgdc:Bounds height="55.0" width="105.0" x="390.0" y="227.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="task_update_contact" id="BPMNShape_task_update_contact">
+        <omgdc:Bounds height="55.0" width="105.0" x="701.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end_contact" id="BPMNShape_end_contact">
+        <omgdc:Bounds height="35.0" width="35.0" x="890.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="531.0" y="234.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mailtask1" id="BPMNShape_mailtask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="240.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="680.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="169.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="257.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="47.0" x="180.0" y="271.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="65.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="129.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="806.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="907.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="907.0" y="275.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="149.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="149.0" y="402.0"></omgdi:waypoint>
+        <omgdi:waypoint x="753.0" y="402.0"></omgdi:waypoint>
+        <omgdi:waypoint x="753.0" y="365.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="54.0" x="150.0" y="350.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="551.0" y="274.0"></omgdi:waypoint>
+        <omgdi:waypoint x="551.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="701.0" y="337.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="88.0" x="511.0" y="298.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="571.0" y="254.0"></omgdi:waypoint>
+        <omgdi:waypoint x="680.0" y="257.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="42.0" width="100.0" x="579.0" y="216.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="345.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="254.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="495.0" y="254.0"></omgdi:waypoint>
+        <omgdi:waypoint x="531.0" y="254.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="785.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="890.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
